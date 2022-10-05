@@ -1,0 +1,27 @@
+*, *:before, *:after {
+    margin: 0;
+    padding: 0;
+}
+
+.App {
+    display: flex;
+    height: 100vh;
+    padding: 24px;
+
+    @media screen and (max-width: 480px) {
+        height: 100%;
+        padding: 0;
+    }
+}
+
+body {
+    font-family: Roboto, sans-serif;
+    font-size: 14px;
+    color: #000;
+    background-color: #fff;
+}
+
+h1, h2 {
+    font-family: 'Roboto Slab', serif;
+    color: darkseagreen;
+}
