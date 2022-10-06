@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
+import Message from '../Message/Message';
 import clsx from 'clsx';
 import styles from './Item.module.scss';
 
@@ -7,6 +8,9 @@ const Item = ({text, num, id, deleteItem, changeContent}) => {
     const [done, setDone] = useState(false);
     const [isInput, setIsInput] = useState(false);
     const [itemInput, setItemInput] = useState(text);
+    const [showMessage, setShowMessage] = useState(false);
+
+    const ref = useRef();
 
     const doneHandler = () => {
         setDone(!done);
@@ -22,10 +26,15 @@ const Item = ({text, num, id, deleteItem, changeContent}) => {
 
     const changeHandler = (e) => {
         setItemInput(e.target.value);
+        showMessage && setShowMessage(false);
     }
 
     const handlerOutFocus = (e) => {
         if(e.key === 'Enter' || e.type === 'blur') {
+            if (itemInput.length === 0) {
+                setShowMessage(true);
+                return;
+            }
             setIsInput();
             changeContent(itemInput, id);
         }
@@ -42,13 +51,15 @@ const Item = ({text, num, id, deleteItem, changeContent}) => {
                 autoFocus
                 name="itemtext"
                 id="itemText"
+                ref={ref}
                 value={itemInput}
             />
         )
     }
 
+
     return (
-        <li className={styles.item} id={id}>
+        <li className={clsx(styles.item, {[styles.item__error]: showMessage})} id={id}>
             {
                 isInput ? <InputField /> : (
                     <div className={styles.item__content} onClick={initTextHandler}>
@@ -63,6 +74,7 @@ const Item = ({text, num, id, deleteItem, changeContent}) => {
                 </div>
                 )
             }
+            {showMessage && <Message />}
             <div className={styles.item__controls}>
                 <button className={styles.item__btn__done} onClick={doneHandler}></button>
                 <button className={styles.item__btn__remove} onClick={deleteHandler}></button>

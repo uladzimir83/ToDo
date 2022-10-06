@@ -1,4 +1,5 @@
 .item {
+    position: relative;
     display: flex;
     align-items: center;
     padding: 15px 0 15px 5px;
@@ -7,6 +8,11 @@
     color: cadetblue;
     transform: scale(1);
     transition: all 1.2s;
+
+    &__error {
+        margin-bottom: 20px;
+        transition: none;
+    }
  }
 
  .item__content {
@@ -95,6 +101,8 @@
 }
 
 .item__input {
+    width: 100%;
+    padding-right: 15px;
     border: none;
     font-size: 16px;
     color: cadetblue;
