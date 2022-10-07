@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import List from '../List/List';
 import Message from '../Message/Message';
+import TaskCounter from '../TaskCounter/TaskCounter';
 import styles from './Body.module.scss';
 import { v4 as uuid } from 'uuid';
 
@@ -77,7 +78,8 @@ const Body = ({addItem}) => {
                     ADD
                 </button>
                 {showMessage && <Message />}
-            </div>  
+            </div>
+            <TaskCounter value={content.length}/>
             <List
                 content={content}
                 deleteItem={deleteContent}

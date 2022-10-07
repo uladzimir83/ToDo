@@ -5,37 +5,37 @@ import styles from './Item.module.scss';
 
 const Item = ({text, num, id, deleteItem, changeContent}) => {
 
-    const [done, setDone] = useState(false);
-    const [isInput, setIsInput] = useState(false);
+    const [taskDone, setTaskDone] = useState(false);
+    const [showInput, setShowInput] = useState(false);
     const [itemInput, setItemInput] = useState(text);
     const [showMessage, setShowMessage] = useState(false);
 
     const ref = useRef();
 
-    const doneHandler = () => {
-        setDone(!done);
+    const taskDoneHandler = () => {
+        setTaskDone(!taskDone);
     }
 
-    const deleteHandler = () => {
+    const deleteTaskHandler = () => {
         deleteItem(id);
     }
 
-    const initTextHandler = () => {
-        setIsInput(!isInput);
+    const initInput = () => {
+        setShowInput(!showInput);
     }
 
-    const changeHandler = (e) => {
+    const changeInputHandler = (e) => {
         setItemInput(e.target.value);
         showMessage && setShowMessage(false);
     }
 
-    const handlerOutFocus = (e) => {
+    const outFocusHandler = (e) => {
         if(e.key === 'Enter' || e.type === 'blur') {
             if (itemInput.length === 0) {
                 setShowMessage(true);
                 return;
             }
-            setIsInput();
+            setShowInput();
             changeContent(itemInput, id);
         }
     }
@@ -45,9 +45,9 @@ const Item = ({text, num, id, deleteItem, changeContent}) => {
             <input
                 className={styles.item__input}
                 type="itemtext"
-                onChange={changeHandler}
-                onKeyDown={handlerOutFocus}
-                onBlur={handlerOutFocus}
+                onChange={changeInputHandler}
+                onKeyDown={outFocusHandler}
+                onBlur={outFocusHandler}
                 autoFocus
                 name="itemtext"
                 id="itemText"
@@ -61,12 +61,12 @@ const Item = ({text, num, id, deleteItem, changeContent}) => {
     return (
         <li className={clsx(styles.item, {[styles.item__error]: showMessage})} id={id}>
             {
-                isInput ? <InputField /> : (
-                    <div className={styles.item__content} onClick={initTextHandler}>
+                showInput ? <InputField /> : (
+                    <div className={styles.item__content} onClick={initInput}>
                         <span className={styles.item__num}>{num}.</span>
                         <span
                             className={clsx(styles.item__text,
-                                {[styles.item__text__done]: done}
+                                {[styles.item__text__done]: taskDone}
                             )}
                         >
                             {text}
@@ -76,8 +76,8 @@ const Item = ({text, num, id, deleteItem, changeContent}) => {
             }
             {showMessage && <Message />}
             <div className={styles.item__controls}>
-                <button className={styles.item__btn__done} onClick={doneHandler}></button>
-                <button className={styles.item__btn__remove} onClick={deleteHandler}></button>
+                <button className={styles.item__btn__done} onClick={taskDoneHandler}></button>
+                <button className={styles.item__btn__remove} onClick={deleteTaskHandler}></button>
             </div>
         </li>
     )
